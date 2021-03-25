@@ -1,0 +1,22 @@
+GET http://localhost:8080/hello
+# Accept: application/json
+
+# 下面的这段代码就是结果验证的脚本，有点类似于单元测试，client 是内置的可以直接用
+> {%
+client.test("test-hello", function() {
+  client.log("测试 /hello 接口");
+  client.log(response.body);
+  client.log(JSON.stringify(response.body)); // 虽然 idea 没有提示，但是可以用
+  client.assert(response.status === 200, "返回码不是 200");
+  client.assert(response.body === "Hello World!", "结果验证失败");
+});
+ %}
+
+###
+
+POST http://localhost:8080/hello/post
+Content-Type: application/x-www-form-urlencoded
+
+name=youcai
+
+###
