@@ -5,11 +5,10 @@ import com.youcai.wikitest.domain.EbookExample;
 import com.youcai.wikitest.mapper.EbookMapper;
 import com.youcai.wikitest.request.EbookRequest;
 import com.youcai.wikitest.response.EbookResponse;
-import org.springframework.beans.BeanUtils;
+import com.youcai.wikitest.util.CopyUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,12 +35,15 @@ public class EbookService {
 
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
-        List<EbookResponse> ebookResponseList = new ArrayList<>();
+        /*List<EbookResponse> ebookResponseList = new ArrayList<>();
         for (Ebook ebook : ebookList) {
             EbookResponse ebookResponse = new EbookResponse();
             BeanUtils.copyProperties(ebook, ebookResponse); // 这个是 spring 提供的一个属性拷贝的工具类
             ebookResponseList.add(ebookResponse);
-        }
+        }*/
+
+        // 利用制作的工具类完成——列表复制
+        List<EbookResponse> ebookResponseList = CopyUtil.copyList(ebookList, EbookResponse.class);
 
         return ebookResponseList;
     }
