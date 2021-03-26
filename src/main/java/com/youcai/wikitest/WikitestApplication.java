@@ -1,11 +1,16 @@
 package com.youcai.wikitest;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
+// @ComponentScan({"com.youcai", "com.test"}) // 可以同时指定多个扫描包
+@ComponentScan("com.youcai")
+@MapperScan("com.youcai.wikitest.mapper")
 @SpringBootApplication
 public class WikitestApplication {
 

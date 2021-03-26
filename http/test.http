@@ -20,3 +20,8 @@ Content-Type: application/x-www-form-urlencoded
 name=youcai
 
 ###
+
+GET http://localhost:8080/test/list
+# Accept: application/json
+
+###

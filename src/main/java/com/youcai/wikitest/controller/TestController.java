@@ -1,11 +1,13 @@
 package com.youcai.wikitest.controller;
 
+import com.youcai.wikitest.domain.Test;
+import com.youcai.wikitest.service.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @ComponentScan("com.youcai.wikitest")
 // @ComponentScan({"com.youcai.wikitest", "com.youcai.test"}) // 支持同时扫描多个包
@@ -15,6 +17,9 @@ public class TestController {
     // :Test 表示该变量的默认配置值为 Test
     @Value("${test.hello:Test}")
     private String testHello;
+
+    @Autowired
+    private TestService testService;
 
 //    @PostMapping("/insert")
 //    @DeleteMapping("/delete")
@@ -28,5 +33,10 @@ public class TestController {
     @PostMapping("/hello/post")
     public String helloPost(String name) {
         return "Hello World!" + name;
+    }
+
+    @GetMapping("/test/list")
+    public List<Test> list() {
+        return testService.list();
     }
 }
