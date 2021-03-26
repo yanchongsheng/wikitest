@@ -27,6 +27,3 @@ reset 即可
 8、如何让整个项目知道 xml 就是要执行的 sql 呢？
 
     需要在项目的 application.properties 的配置中，配置选项 mybatis.mapper-locations=classpath:/mapper/**/*.xml
-
-
-
