@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
-// @ComponentScan({"com.youcai", "com.test"}) // 可以同时指定多个扫描包
+// @ComponentScan({"com.youcai.wikitest", "com.youcai.test"}) // 支持同时扫描多个包
 @ComponentScan("com.youcai")
 @MapperScan("com.youcai.wikitest.mapper")
 @SpringBootApplication
