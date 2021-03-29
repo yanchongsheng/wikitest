@@ -55,8 +55,18 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'Home',
+  // 通过 axios 调用后端接口
+  setup() { // Vue3 新增的初始化方法，表示：这个组件加载完之后，初始会执行的一个方法
+    console.log('setup');
+    axios.get('http://localhost:8888/ebook/list?name=Python').then(
+      (response)=>{
+        console.log(response);
+      }
+    )
+  }
 });
 </script>

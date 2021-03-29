@@ -1,4 +1,4 @@
-GET http://localhost:8080/hello
+GET http://localhost:8888/hello
 # Accept: application/json
 
 # 下面的这段代码就是结果验证的脚本，有点类似于单元测试，client 是内置的可以直接用
@@ -14,14 +14,14 @@ GET http://localhost:8080/hello
 
 ###
 
-POST http://localhost:8080/hello/post
+POST http://localhost:8888/hello/post
 Content-Type: application/x-www-form-urlencoded
 
 name=youcai
 
 ###
 
-GET http://localhost:8080/test/list
+GET http://localhost:8888/test/list
 # Accept: application/json
 
 ###
