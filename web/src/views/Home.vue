@@ -9,10 +9,10 @@
       >
         <a-sub-menu key="sub1">
           <template #title>
-              <span>
-                <user-outlined />
-                subnav 1
-              </span>
+            <span>
+              <user-outlined />
+              subnav 1
+            </span>
           </template>
           <a-menu-item key="1">option1</a-menu-item>
           <a-menu-item key="2">option2</a-menu-item>
@@ -21,10 +21,10 @@
         </a-sub-menu>
         <a-sub-menu key="sub2">
           <template #title>
-              <span>
-                <laptop-outlined />
-                subnav 2
-              </span>
+            <span>
+              <laptop-outlined />
+              subnav 2
+            </span>
           </template>
           <a-menu-item key="5">option5</a-menu-item>
           <a-menu-item key="6">option6</a-menu-item>
@@ -33,10 +33,10 @@
         </a-sub-menu>
         <a-sub-menu key="sub3">
           <template #title>
-              <span>
-                <notification-outlined />
-                subnav 3
-              </span>
+            <span>
+              <notification-outlined />
+              subnav 3
+            </span>
           </template>
           <a-menu-item key="9">option9</a-menu-item>
           <a-menu-item key="10">option10</a-menu-item>
@@ -46,27 +46,57 @@
       </a-menu>
     </a-layout-sider>
     <a-layout-content
-      :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+      :style="{
+        background: '#fff',
+        padding: '24px',
+        margin: 0,
+        minHeight: '280px',
+      }"
     >
-      Content
+      <pre>{{ebooks}}{{ebooks2}}</pre>
     </a-layout-content>
   </a-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import axios from 'axios';
+import { defineComponent, onMounted, reactive, ref, toRef } from "vue";
+import axios from "axios";
 
 export default defineComponent({
-  name: 'Home',
+  name: "Home",
   // 通过 axios 调用后端接口
-  setup() { // Vue3 新增的初始化方法，表示：这个组件加载完之后，初始会执行的一个方法
-    console.log('setup');
-    axios.get('http://localhost:8888/ebook/list?name=Python').then(
-      (response)=>{
-        console.log(response);
-      }
-    )
-  }
+  setup() {
+    // Vue3 新增的初始化方法，表示：这个组件加载完之后，初始会执行的一个方法
+    console.log("setup");
+
+    // 它是一个响应式数据，所谓的响应式数据就是说我在 js 里面动态修改这里面的值，它需要实时的反映到页面上去，对于这样的数据就需要处理为响应式数据。用 ref 就可以让它变为一个响应式数据。最后，注意在 setup 方法中，将 ref 类型的数据 return 出去。
+
+    // 注意：html 代码要拿到响应式变量，需要在 setup 最后 return
+    const ebooks = ref();
+
+    // reactive 里面一般是放一个对象
+    const ebooks1 = reactive({books: []});
+
+    // 一般初始化的方法建议都写到生命周期函数里面，因为如果直接写到 setup 方法里面，有时候 setup 执行的时候界面还没有渲染好，这时候如果去操作页面元素就会报错
+    onMounted(() => {
+      console.log("onMounted");
+      axios
+        .get("http://localhost:8888/ebook/list?name=Python")
+        .then((response) => {
+          const data = response.data;
+          // 注意：ref 类型的变量赋值，不能直接赋值，而是要采用 .value 的形式
+          ebooks.value = data.content;
+
+          ebooks1.books = data.content;
+
+          console.log(response);
+        });
+    });
+
+    return {
+      ebooks,
+      ebooks2: toRef(ebooks1, "books")
+    };
+  },
 });
 </script>

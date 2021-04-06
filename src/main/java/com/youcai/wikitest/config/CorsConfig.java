@@ -15,7 +15,7 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // 映射的请求地址
+        registry.addMapping("/**") // 映射的请求地址，表示针对所有的请求地址
                 .allowedOriginPatterns("*") // 允许来源
                 .allowedHeaders(CorsConfiguration.ALL)
                 .allowedMethods(CorsConfiguration.ALL)
