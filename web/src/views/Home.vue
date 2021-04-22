@@ -99,7 +99,8 @@ export default defineComponent({
     onMounted(() => {
       console.log("onMounted");
       axios
-        .get("http://localhost:8888/ebook/list")
+        // 注意拼接的时候，不要多加或者少 / 的情况
+        .get(process.env.VUE_APP_SERVER + "/ebook/list")
         .then((response) => {
           const data = response.data;
           // 注意：ref 类型的变量赋值，不能直接赋值，而是要采用 .value 的形式
