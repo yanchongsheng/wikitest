@@ -53,7 +53,25 @@
         minHeight: '280px',
       }"
     >
-      <pre>{{ebooks}}{{ebooks2}}</pre>
+      <!-- 列表 -->
+      <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 4 }" :data-source="ebooks">
+      <template #renderItem="{ item }">
+      <a-list-item key="item.name">
+        <template #actions>
+          <span v-for="{ type, text } in actions" :key="type">
+            <component v-bind:is="type" style="margin-right: 8px" />
+            {{ text }}
+          </span>
+        </template>
+        <a-list-item-meta :description="item.description">
+          <template #title>
+            <a :href="item.href">{{ item.name }}</a>
+          </template>
+          <template #avatar><a-avatar :src="item.cover" /></template>
+        </a-list-item-meta>
+      </a-list-item>
+      </template>
+      </a-list>
     </a-layout-content>
   </a-layout>
 </template>
@@ -61,6 +79,20 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref, toRef } from "vue";
 import axios from "axios";
+
+const listData: Record<string, string>[] = [];
+
+for (let i = 0; i < 23; i++) {
+  listData.push({
+    href: 'https://www.antdv.com/',
+    title: `ant design vue part ${i}`,
+    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    description:
+      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+    content:
+      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+  });
+}
 
 export default defineComponent({
   name: "Home",
@@ -93,9 +125,25 @@ export default defineComponent({
         });
     });
 
+    const pagination = {
+      onChange: (page: number) => {
+        console.log(page);
+      },
+      pageSize: 3,
+    };
+
+    const actions: Record<string, string>[] = [
+      { type: 'StarOutlined', text: '156' },
+      { type: 'LikeOutlined', text: '156' },
+      { type: 'MessageOutlined', text: '2' },
+    ];
+
     return {
       ebooks,
-      ebooks2: toRef(ebooks1, "books")
+      ebooks2: toRef(ebooks1, "books"),
+      listData,
+      pagination,
+      actions
     };
   },
 });
