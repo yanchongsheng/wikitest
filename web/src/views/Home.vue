@@ -54,7 +54,7 @@
       }"
     >
       <!-- 列表 -->
-      <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 4 }" :data-source="ebooks">
+      <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }" :data-source="ebooks">
       <template #renderItem="{ item }">
       <a-list-item key="item.name">
         <template #actions>
@@ -80,20 +80,6 @@
 import { defineComponent, onMounted, reactive, ref, toRef } from "vue";
 import axios from "axios";
 
-const listData: Record<string, string>[] = [];
-
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://www.antdv.com/',
-    title: `ant design vue part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
-
 export default defineComponent({
   name: "Home",
   // 通过 axios 调用后端接口
@@ -113,7 +99,7 @@ export default defineComponent({
     onMounted(() => {
       console.log("onMounted");
       axios
-        .get("http://localhost:8888/ebook/list?name=Python")
+        .get("http://localhost:8888/ebook/list")
         .then((response) => {
           const data = response.data;
           // 注意：ref 类型的变量赋值，不能直接赋值，而是要采用 .value 的形式
@@ -141,10 +127,20 @@ export default defineComponent({
     return {
       ebooks,
       ebooks2: toRef(ebooks1, "books"),
-      listData,
       pagination,
       actions
     };
   },
 });
 </script>
+
+// scoped 表示这里的样式只在当前组件起作用
+<style scoped>
+  .ant-avatar {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 8%;
+    margin: 5px 0;
+  }
+</style>

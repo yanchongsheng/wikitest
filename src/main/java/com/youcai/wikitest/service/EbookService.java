@@ -7,6 +7,7 @@ import com.youcai.wikitest.request.EbookRequest;
 import com.youcai.wikitest.response.EbookResponse;
 import com.youcai.wikitest.util.CopyUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -31,7 +32,9 @@ public class EbookService {
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria(); // criteria 条件的意识
 
-        criteria.andNameLike("%" + request.getName() + "%");
+        if (!ObjectUtils.isEmpty(request.getName())) {
+            criteria.andNameLike("%" + request.getName() + "%");
+        }
 
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
